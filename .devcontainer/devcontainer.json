@@ -1,0 +1,38 @@
+{
+  "name": "Terraform Development Environment",
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/aws-cli:1": {
+      "version": "latest"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "hashicorp.terraform",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "postCreateCommand": {
+    "mtccli": "curl -s https://app.morethancertified.com/install.sh | sh",
+    "deletecmd": "echo \"alias mtc-delete='gh cs delete -c ${CODESPACE_NAME}'\" >> ~/.bashrc",
+    "cfnalias": "echo \"alias mtc-init='./bootstrap/mtc-init.sh'\" >> ~/.bashrc",
+    "mtcchmod": "chmod +x ./bootstrap/mtc-init.sh",
+    "gitpull": "git pull origin main"
+  },
+  "secrets": {
+    "AWS_ACCESS_KEY_ID": {
+      "description": "AWS Access Key ID if the lab requires it."
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "description": "AWS Secret Access Key if the lab requires it."
+    },
+    "AWS_DEFAULT_REGION": {
+      "description": "AWS Region if it is an AWS lab. If unsure, set to us-east-1."
+    }
+  }
+}
