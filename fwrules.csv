@@ -1,0 +1,13 @@
+id,type,from_port,to_port,protocol,cidr_block
+1,ingress,22,22,TCP,0.0.0.0/0
+2,ingress,80,80,TCP,0.0.0.0/0
+3,ingress,443,443,TCP,0.0.0.0/0
+4,egress,0,0,-1,0.0.0.0/0
+5,ingress,3306,3306,TCP,10.0.0.0/16
+6,ingress,5432,5432,TCP,10.0.0.0/16
+7,ingress,8080,8080,TCP,0.0.0.0/0
+8,egress,1024,65535,TCP,0.0.0.0/0
+9,ingress,25,25,TCP,192.168.1.0/24
+10,egress,53,53,UDP,10.0.1.0/24
+11,ingress,3389,3389,TCP,10.0.2.0/24
+12,egress,443,443,TCP,10.0.3.0/24
