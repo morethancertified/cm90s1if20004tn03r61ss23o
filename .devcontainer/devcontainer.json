@@ -7,6 +7,11 @@
     },
     "ghcr.io/devcontainers/features/aws-cli:1": {
       "version": "latest"
+    },
+    "ghcr.io/localstack/devcontainer-feature/localstack-cli": {
+      "version": "latest",
+      "awslocal": true,
+      "tflocal": true 
     }
   },
   "customizations": {
@@ -20,19 +25,13 @@
   "postCreateCommand": {
     "mtccli": "curl -s https://app.morethancertified.com/install.sh | sh",
     "deletecmd": "echo \"alias mtc-delete='gh cs delete -c ${CODESPACE_NAME}'\" >> ~/.bashrc",
-    "cfnalias": "echo \"alias mtc-init='./bootstrap/mtc-init.sh'\" >> ~/.bashrc",
-    "mtcchmod": "chmod +x ./bootstrap/mtc-init.sh",
+    "tfalias": "echo \"alias terraform='tflocal'\" >> ~/.bashrc",
+    "awsalias": "echo \"alias aws='awslocal'\" >> ~/.bashrc",
+    "awsregion": "export AWS_DEFAULT_REGION='us-east-1' >> ~/.bashrc",
+    "startls": "localstack start -d",
     "gitpull": "git pull origin main"
   },
-  "secrets": {
-    "AWS_ACCESS_KEY_ID": {
-      "description": "AWS Access Key ID if the lab requires it."
-    },
-    "AWS_SECRET_ACCESS_KEY": {
-      "description": "AWS Secret Access Key if the lab requires it."
-    },
-    "AWS_DEFAULT_REGION": {
-      "description": "AWS Region if it is an AWS lab. If unsure, set to us-east-1."
-    }
+  "postStartCommand": {
+    "deploy": "awslocal cloudformation deploy --stack-name mtc-stack --template-file './bootstrap/lab-cfn.yaml' --region us-east-1 --no-cli-pager >> deploying.txt && mv deploying.txt deployed.txt"
   }
 }
